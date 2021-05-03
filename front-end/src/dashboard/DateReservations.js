@@ -1,7 +1,7 @@
 function DateReservations({ reservations }) {
   const rows = reservations.map((reservation) => {
     return (
-      <tr>
+      <tr key={reservation.reservation_id}>
         <td>{reservation.reservation_time}</td>
         <td>{reservation.first_name}</td>
         <td>{reservation.last_name}</td>
