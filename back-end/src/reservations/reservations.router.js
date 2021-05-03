@@ -9,5 +9,6 @@ const controller = require("./reservations.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router.route("/").get(controller.list).all(methodNotAllowed);
+router.route("/:reservationId").all(methodNotAllowed);
 
 module.exports = router;
