@@ -5,6 +5,7 @@ function ReservationForm() {
       <label htmlFor="first_name">First name</label>
       <input
         className="form-control"
+        type="text"
         id="first_name"
         name="first_name"
         required
@@ -12,6 +13,7 @@ function ReservationForm() {
       <label htmlFor="last_name">Last name</label>
       <input
         className="form-control"
+        type="text"
         id="last_name"
         name="last_name"
         required
@@ -19,6 +21,7 @@ function ReservationForm() {
       <label htmlFor="mobile_number">Mobile number</label>
       <input
         className="form-control"
+        type="text"
         id="mobile_number"
         name="mobile_number"
         required
@@ -26,6 +29,7 @@ function ReservationForm() {
       <label htmlFor="reservation_date">Reservation date</label>
       <input
         className="form-control"
+        type="text"
         id="reservation_date"
         name="reservation_date"
         required
@@ -33,6 +37,7 @@ function ReservationForm() {
       <label htmlFor="reservation_time">Reservation time</label>
       <input
         className="form-control"
+        type="text"
         id="reservation_time"
         name="reservation_time"
         required
