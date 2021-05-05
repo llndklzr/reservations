@@ -9,7 +9,12 @@ function list() {
   return knex("reservations");
 }
 
+function listByDate(reservation_date) {
+  return knex("reservations").select("*").where({ reservation_date });
+}
+
 module.exports = {
   create,
   list,
+  listByDate,
 };

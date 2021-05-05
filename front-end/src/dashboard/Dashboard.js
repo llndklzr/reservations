@@ -21,7 +21,8 @@ function Dashboard() {
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setReservationsError)
+      .then(console.log(date, reservations));
     return () => abortController.abort();
   }
   // TODO: implement change handler for date

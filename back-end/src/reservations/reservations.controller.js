@@ -40,8 +40,15 @@ async function create(req, res) {
 }
 
 async function list(req, res) {
-  const data = await service.list();
-  res.json({ data });
+  const { date } = req.query;
+
+  if (date) {
+    const data = await service.listByDate(date);
+    res.json({ data });
+  } else {
+    const data = await service.list();
+    res.json({ data });
+  }
 }
 
 module.exports = {
