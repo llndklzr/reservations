@@ -7,6 +7,7 @@ function ReservationForm({ submitHandler }) {
   const initialFormData = {
     first_name: "",
     last_name: "",
+    people: "",
     mobile_number: "",
     reservation_date: today(),
     reservation_time: "",
@@ -18,6 +19,7 @@ function ReservationForm({ submitHandler }) {
       ...formData,
       [target.name]: target.value,
     });
+    console.log(formData);
   };
 
   const renderView = (
@@ -49,6 +51,16 @@ function ReservationForm({ submitHandler }) {
         id="mobile_number"
         name="mobile_number"
         value={formData.mobile_number}
+        onChange={changeHandler}
+        required
+      />
+      <label htmlFor="people">Party size</label>
+      <input
+        className="form-control"
+        type="number"
+        id="people"
+        name="people"
+        value={formData.people}
         onChange={changeHandler}
         required
       />
