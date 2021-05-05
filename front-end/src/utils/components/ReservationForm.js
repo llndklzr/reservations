@@ -1,29 +1,11 @@
-import { useState } from "react";
-import { today } from "../date-time";
 import { Button } from "./buttons";
+import { useHistory } from "react-router-dom";
 
-function ReservationForm({ submitHandler }) {
-  // TODO: implement submit functionality, controlled input, date range
-  const initialFormData = {
-    first_name: "",
-    last_name: "",
-    people: "",
-    mobile_number: "",
-    reservation_date: today(),
-    reservation_time: "",
-  };
-  const [formData, setformData] = useState(initialFormData);
-
-  const changeHandler = ({ target }) => {
-    setformData({
-      ...formData,
-      [target.name]: target.value,
-    });
-    console.log(formData);
-  };
+function ReservationForm({ handleChange, handleSubmit, formData }) {
+  const history = useHistory();
 
   const renderView = (
-    <form onSubmit={submitHandler} className="form-group">
+    <form onSubmit={handleSubmit} className="form-group">
       <label htmlFor="first_name">First name</label>
       <input
         className="form-control"
@@ -31,7 +13,7 @@ function ReservationForm({ submitHandler }) {
         id="first_name"
         name="first_name"
         value={formData.first_name}
-        onChange={changeHandler}
+        onChange={handleChange}
         required
       />
       <label htmlFor="last_name">Last name</label>
@@ -41,7 +23,7 @@ function ReservationForm({ submitHandler }) {
         id="last_name"
         name="last_name"
         value={formData.last_name}
-        onChange={changeHandler}
+        onChange={handleChange}
         required
       />
       <label htmlFor="mobile_number">Mobile number</label>
@@ -51,7 +33,7 @@ function ReservationForm({ submitHandler }) {
         id="mobile_number"
         name="mobile_number"
         value={formData.mobile_number}
-        onChange={changeHandler}
+        onChange={handleChange}
         required
       />
       <label htmlFor="people">Party size</label>
@@ -61,7 +43,7 @@ function ReservationForm({ submitHandler }) {
         id="people"
         name="people"
         value={formData.people}
-        onChange={changeHandler}
+        onChange={handleChange}
         required
       />
       <label htmlFor="reservation_date">Reservation date</label>
@@ -71,7 +53,7 @@ function ReservationForm({ submitHandler }) {
         id="reservation_date"
         name="reservation_date"
         value={formData.reservation_date}
-        onChange={changeHandler}
+        onChange={handleChange}
         required
       />
       <label htmlFor="reservation_time">Reservation time</label>
@@ -81,10 +63,11 @@ function ReservationForm({ submitHandler }) {
         id="reservation_time"
         name="reservation_time"
         value={formData.reservation_time}
-        onChange={changeHandler}
+        onChange={handleChange}
         required
       />
       <Button type="submit">Submit</Button>
+      <Button onClick={() => history.goBack()}>Cancel</Button>
     </form>
   );
   return renderView;
