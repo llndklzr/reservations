@@ -13,6 +13,7 @@ router
   .post(controller.create)
   .get(controller.list)
   .all(methodNotAllowed);
-router.route("/:reservationId").all(methodNotAllowed);
+
+router.route("/:reservationId").get(controller.read).all(methodNotAllowed);
 
 module.exports = router;
