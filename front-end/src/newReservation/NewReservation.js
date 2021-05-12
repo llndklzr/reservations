@@ -3,17 +3,20 @@ import { useHistory } from "react-router-dom";
 import ReservationForm from "../utils/components/ReservationForm";
 import { today } from "../utils/date-time";
 import { createReservation } from "../utils/api";
+import ReservationFormErrors from "../errors/ReservationFormErrors";
+import reservationFormValidation from "../errors/reservationFormValidation";
 
 function NewReservation() {
   const initialFormData = {
     first_name: "",
     last_name: "",
-    people: "",
+    people: "1",
     mobile_number: "",
     reservation_date: today(),
     reservation_time: "",
   };
   const [formData, setformData] = useState(initialFormData);
+  const [reservationErrors, setReservationErrors] = useState([]);
   const history = useHistory();
 
   const handleChange = ({ target }) => {
@@ -26,25 +29,36 @@ function NewReservation() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const abortController = new AbortController();
-    try {
-      await createReservation(formData, abortController.signal);
-      history.push("/dashboard");
-    } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("NewReservation Aborted");
-      } else {
-        throw error;
+
+    const errors = reservationFormValidation(formData);
+    if (errors.length) {
+      setReservationErrors(errors);
+    } else {
+      try {
+        await createReservation(formData, abortController.signal);
+        history.push("/dashboard");
+      } catch (error) {
+        if (error.name === "AbortError") {
+          console.log("NewReservation Aborted");
+        } else {
+          setReservationErrors([error]);
+        }
       }
     }
     return () => abortController.abort();
   };
 
   return (
-    <ReservationForm
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      formData={formData}
-    />
+    <>
+      {reservationErrors && (
+        <ReservationFormErrors reservationErrors={reservationErrors} />
+      )}
+      <ReservationForm
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        formData={formData}
+      />
+    </>
   );
 }
 

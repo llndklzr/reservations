@@ -1,7 +1,7 @@
 import { Button } from "./buttons";
 import { useHistory } from "react-router-dom";
 
-function ReservationForm({ handleChange, handleSubmit, formData }) {
+function ReservationForm({ handleChange, handleSubmit, formData, today }) {
   const history = useHistory();
 
   const renderView = (
@@ -29,9 +29,11 @@ function ReservationForm({ handleChange, handleSubmit, formData }) {
       <label htmlFor="mobile_number">Mobile number</label>
       <input
         className="form-control"
-        type="text"
+        type="tel"
         id="mobile_number"
         name="mobile_number"
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        placeholder="123-456-7890"
         value={formData.mobile_number}
         onChange={handleChange}
         required
@@ -42,6 +44,8 @@ function ReservationForm({ handleChange, handleSubmit, formData }) {
         type="number"
         id="people"
         name="people"
+        min={1}
+        step={1}
         value={formData.people}
         onChange={handleChange}
         required

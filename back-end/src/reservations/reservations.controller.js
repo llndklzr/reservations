@@ -75,15 +75,44 @@ function hasValidTime(req, res, next) {
 }
 
 function hasValidPeople(req, res, next) {
-  const people = req.body.data.people;
+  const people = Number(req.body.data.people);
   const valid = Number.isInteger(people);
 
-  if (valid) {
+  if (valid && people > 0) {
     return next();
   }
   next({
     status: 400,
-    message: `people '${people}' is not a valid integer`,
+    message: `Party size '${people}' is not a valid integer`,
+  });
+}
+
+function noReservationsOnTuesdays(req, res, next) {
+  const reservation_date = req.body.data.reservation_date;
+  const weekday = new Date(reservation_date).getUTCDay();
+  // Sunday - Saturday: 0-6
+  if (weekday !== 2) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `The restaurant is closed on Tuesdays.`,
+  });
+}
+
+function noReservationsInPast(req, res, next) {
+  const { reservation_date, reservation_time } = req.body.data;
+  const presentDate = Date.now();
+  const newReservationDate = new Date(
+    `${reservation_date} ${reservation_time}`
+  ).valueOf();
+
+  if (newReservationDate > presentDate) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `New reservations must be in the future.`,
   });
 }
 
@@ -117,6 +146,8 @@ module.exports = {
     hasValidDate,
     hasValidTime,
     hasValidPeople,
+    noReservationsOnTuesdays,
+    noReservationsInPast,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
