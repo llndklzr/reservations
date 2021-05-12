@@ -1,51 +1,62 @@
-function reservationFormValidation(formData) {
+function reservationFormValidation({
+  first_name,
+  last_name,
+  people,
+  mobile_number,
+  reservation_date,
+  reservation_time,
+}) {
   const errors = [];
   const phoneRegex = /[0-9]{3}-[0-9]{3}-[0-9]{4}/;
 
-  if (!formData.first_name) {
+  if (!first_name) {
     errors.push({ message: "First name is required." });
   }
 
-  if (!formData.last_name) {
+  if (!last_name) {
     errors.push({ message: "Last name is required." });
   }
 
-  if (!formData.mobile_number || !phoneRegex.test(formData.mobile_number)) {
+  if (!mobile_number || !phoneRegex.test(mobile_number)) {
     errors.push({
-      message: "Mobile number formatted '123-456-7890' is required.",
+      message: "Mobile number formatted 'XXX-XXX-XXXX' is required.",
     });
   }
 
-  if (
-    !formData.people ||
-    formData.people <= 0 ||
-    Number.isInteger(Number(formData.people))
-  ) {
+  if (!people || Number(people) <= 0 || !Number.isInteger(Number(people))) {
     errors.push({
       message: "Party size must be a whole number greater than 0.",
     });
   }
 
-  if (!formData.reservation_date || !formData.reservation_time) {
+  if (!reservation_date || !reservation_time) {
     errors.push({
       message: "Reservation date and time are required.",
     });
   } else {
     const presentDate = Date.now();
     const newReservationDate = new Date(
-      `${formData.reservation_date} ${formData.reservation_time}`
-    ).valueOf();
-    if (presentDate > newReservationDate) {
+      `${reservation_date} ${reservation_time}`
+    );
+    if (presentDate > newReservationDate.valueOf()) {
       errors.push({
         message: "Reservation date and time must be in the future.",
       });
     }
     // Sunday-Saturday: 0-6
-    console.log(typeof newReservationDate);
-    const weekday = new Date(formData.reservation_date).getUTCDay();
+    const weekday = new Date(reservation_date).getUTCDay();
     if (weekday === 2) {
       errors.push({
         message: "The restaurant is closed on Tuesdays.",
+      });
+    }
+    const hours = newReservationDate.getHours();
+    const minutes = newReservationDate.getMinutes();
+    const clockTime = hours * 100 + minutes;
+
+    if (clockTime < 1030 || clockTime > 2130) {
+      errors.push({
+        message: "Reservations must be between 10:30 AM and 9:30 PM.",
       });
     }
   }

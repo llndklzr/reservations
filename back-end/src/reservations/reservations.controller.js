@@ -116,6 +116,21 @@ function noReservationsInPast(req, res, next) {
   });
 }
 
+function reservationIsDuringBusinessHours(req, res, next) {
+  const reservation_time = req.body.data.reservation_time;
+  const hours = Number(reservation_time.slice(0, 1));
+  const minutes = Number(reservation_time.slice(3, 4));
+  const clockTime = hours * 100 + minutes;
+
+  if (clockTime < 1030 || clockTime > 2130) {
+    next({
+      status: 400,
+      message: `Reservation time must be between 10:30 AM and 9:30 PM`,
+    });
+  }
+  next();
+}
+
 //! <<-------   CRUDL    ------->>
 async function create(req, res) {
   const data = await service.create(req.body.data);
@@ -148,6 +163,7 @@ module.exports = {
     hasValidPeople,
     noReservationsOnTuesdays,
     noReservationsInPast,
+    reservationIsDuringBusinessHours,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],

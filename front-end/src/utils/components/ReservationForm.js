@@ -66,6 +66,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, today }) {
         type="time"
         id="reservation_time"
         name="reservation_time"
+        step={900}
         value={formData.reservation_time}
         onChange={handleChange}
         required

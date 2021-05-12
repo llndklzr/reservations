@@ -50,7 +50,7 @@ function NewReservation() {
 
   return (
     <>
-      {reservationErrors && (
+      {reservationErrors.length > 0 && (
         <ReservationFormErrors reservationErrors={reservationErrors} />
       )}
       <ReservationForm

@@ -3,16 +3,17 @@ import ErrorAlert from "./ErrorAlert";
 function ReservationFormErrors({ reservationErrors }) {
   let index = 0;
   return (
-    <ul className="list-group list-group-flush">
+    <div className="alert alert-danger" role="alert">
       {reservationErrors.map((error) => {
         index++;
         return (
-          <li key={index} className="list-group-item">
-            <ErrorAlert error={error} />
-          </li>
+          <p key={index}>
+            {error.message}
+            {/* <ErrorAlert error={error} /> */}
+          </p>
         );
       })}
-    </ul>
+    </div>
   );
 }
 
