@@ -5,6 +5,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
+const onlyValidProperties = require("../errors/onlyValidProperties");
 
 const REQUIRED_PROPERTIES = [
   "first_name",
@@ -16,21 +17,7 @@ const REQUIRED_PROPERTIES = [
 ];
 
 //! <<------- VALIDATION ------->>
-function hasOnlyValidProperties(req, res, next) {
-  const { data = {} } = req.body;
-  const invalidFields = Object.keys(data).filter(
-    (field) => !REQUIRED_PROPERTIES.includes(field)
-  );
-
-  if (invalidFields.length) {
-    return next({
-      status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}.`,
-    });
-  }
-  next();
-}
-
+const hasOnlyValidProperties = onlyValidProperties(REQUIRED_PROPERTIES);
 const hasRequiredProperties = hasProperties(REQUIRED_PROPERTIES);
 
 async function reservationExists(req, res, next) {
@@ -118,14 +105,13 @@ function noReservationsInPast(req, res, next) {
 
 function reservationIsDuringBusinessHours(req, res, next) {
   const reservation_time = req.body.data.reservation_time;
-  const hours = Number(reservation_time.slice(0, 1));
-  const minutes = Number(reservation_time.slice(3, 4));
+  const hours = Number(reservation_time.slice(0, 2));
+  const minutes = Number(reservation_time.slice(3, 5));
   const clockTime = hours * 100 + minutes;
-
   if (clockTime < 1030 || clockTime > 2130) {
     next({
       status: 400,
-      message: `Reservation time must be between 10:30 AM and 9:30 PM`,
+      message: `Reservation time '${reservation_time}' must be between 10:30 AM and 9:30 PM`,
     });
   }
   next();

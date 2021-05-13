@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import ReservationForm from "../utils/components/ReservationForm";
 import { today } from "../utils/date-time";
 import { createReservation } from "../utils/api";
-import ReservationFormErrors from "../errors/ReservationFormErrors";
+import FormErrors from "../errors/FormErrors";
 import reservationFormValidation from "../errors/reservationFormValidation";
 
 function NewReservation() {
@@ -51,7 +51,7 @@ function NewReservation() {
   return (
     <>
       {reservationErrors.length > 0 && (
-        <ReservationFormErrors reservationErrors={reservationErrors} />
+        <FormErrors errors={reservationErrors} />
       )}
       <ReservationForm
         handleChange={handleChange}

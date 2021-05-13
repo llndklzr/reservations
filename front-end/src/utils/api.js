@@ -52,6 +52,8 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
+//! <<------- RESERVATIONS ------->>
+
 /** POST a new reservation to the database
  *
  * @param reservation
@@ -87,4 +89,26 @@ export async function listReservations(params, signal) {
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+//! <<------- TABLES ------->>
+
+export async function createTable(data, signal) {
+  const url = `${API_BASE_URL}/tables`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data }),
+    signal,
+  };
+  console.log(url, options);
+  return await fetchJson(url, options);
+}
+
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  // Object.entries(params).forEach(([key, value]) =>
+  //   url.searchParams.append(key, value.toString())
+  // );
+  return await fetchJson(url, { headers, signal }, []);
 }

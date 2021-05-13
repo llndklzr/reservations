@@ -1,12 +1,12 @@
 import { Button } from "./buttons";
 import { useHistory } from "react-router-dom";
 
-function ReservationForm({ handleChange, handleSubmit, formData, today }) {
+function ReservationForm({ handleChange, handleSubmit, formData}) {
   const history = useHistory();
 
   const renderView = (
     <form onSubmit={handleSubmit} className="form-group">
-      <label htmlFor="first_name">First name</label>
+      <label className="form-label" htmlFor="first_name">First name</label>
       <input
         className="form-control"
         type="text"
@@ -16,7 +16,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, today }) {
         onChange={handleChange}
         required
       />
-      <label htmlFor="last_name">Last name</label>
+      <label className="form-label" htmlFor="last_name">Last name</label>
       <input
         className="form-control"
         type="text"
@@ -26,7 +26,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, today }) {
         onChange={handleChange}
         required
       />
-      <label htmlFor="mobile_number">Mobile number</label>
+      <label className="form-label" htmlFor="mobile_number">Mobile number</label>
       <input
         className="form-control"
         type="tel"
@@ -38,7 +38,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, today }) {
         onChange={handleChange}
         required
       />
-      <label htmlFor="people">Party size</label>
+      <label className="form-label" htmlFor="people">Party size</label>
       <input
         className="form-control"
         type="number"
@@ -50,7 +50,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, today }) {
         onChange={handleChange}
         required
       />
-      <label htmlFor="reservation_date">Reservation date</label>
+      <label className="form-label" htmlFor="reservation_date">Reservation date</label>
       <input
         className="form-control"
         type="date"
@@ -60,7 +60,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, today }) {
         onChange={handleChange}
         required
       />
-      <label htmlFor="reservation_time">Reservation time</label>
+      <label className="form-label" htmlFor="reservation_time">Reservation time</label>
       <input
         className="form-control"
         type="time"

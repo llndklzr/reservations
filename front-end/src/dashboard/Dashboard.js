@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../errors/ErrorAlert";
 import DateReservations from "./DateReservations";
+import TablesDisplay from "./TablesDisplay";
 import { today } from "../utils/date-time";
+
 /**
  * Defines the dashboard page.
  * @param date
@@ -12,6 +14,8 @@ import { today } from "../utils/date-time";
 function Dashboard() {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
   const [date, setDate] = useState(today());
 
   useEffect(loadDashboard, [date]);
@@ -19,6 +23,7 @@ function Dashboard() {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
+    listTables(abortController.signal).then(setTables).catch(setTablesError);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
@@ -51,6 +56,8 @@ function Dashboard() {
       </div>
       <ErrorAlert error={reservationsError} />
       <DateReservations reservations={reservations} />
+      <ErrorAlert error={tablesError} />
+      <TablesDisplay tables={tables} />
     </main>
   );
 }
