@@ -5,7 +5,7 @@ function TablesDisplay({ tables }) {
         <td>{table.table_name}</td>
         <td>{table.capacity}</td>
         <td data-table-id-status={table.table_id}>
-          {table.occupied ? "Occupied" : "Free"}
+          {table.reservation_id ? "Occupied" : "Free"}
         </td>
       </tr>
     );

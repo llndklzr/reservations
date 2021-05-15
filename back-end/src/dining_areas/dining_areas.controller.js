@@ -34,8 +34,14 @@ function hasValidCapacity(req, res, next) {
 //! <<-------- CRUDL ------->>
 async function create(req, res) {
   const dining_area = req.body.data;
-  dining_area["occupied"] = false;
   const data = await service.create(dining_area);
+  res.status(201).json({ data });
+}
+
+async function updateSeatReservation(req, res) {
+  const { reservation_id } = req.body.data;
+  const table_id = req.params.tableId;
+  const data = await service.updateSeatReservation(reservation_id, table_id);
   res.status(201).json({ data });
 }
 
@@ -52,5 +58,6 @@ module.exports = {
     hasValidCapacity,
     asyncErrorBoundary(create),
   ],
+  updateSeatReservation: asyncErrorBoundary(updateSeatReservation),
   list: asyncErrorBoundary(list),
 };

@@ -75,6 +75,13 @@ export async function createReservation(data, signal) {
   return await fetchJson(url, options);
 }
 
+export async function readReservation(reservationId, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservationId}`);
+  return await fetchJson(url, { headers, signal }, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
 /**
  * Retrieves all existing reservation.
  * @returns {Promise<[reservation]>}
@@ -101,7 +108,17 @@ export async function createTable(data, signal) {
     body: JSON.stringify({ data }),
     signal,
   };
-  console.log(url, options);
+  return await fetchJson(url, options);
+}
+
+export async function updateSeatReservation(table_id, reservation_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ reservation_id }),
+    signal,
+  };
   return await fetchJson(url, options);
 }
 

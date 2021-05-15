@@ -8,11 +8,19 @@ function create(dining_area) {
     .then((result) => result[0]);
 }
 
+function updateSeatReservation(reservation_id, table_id) {
+  return knex("dining_areas")
+    .select("*")
+    .where({ table_id })
+    .update({ reservation_id }, "*");
+}
+
 function list() {
   return knex("dining_areas");
 }
 
 module.exports = {
   create,
+  updateSeatReservation,
   list,
 };

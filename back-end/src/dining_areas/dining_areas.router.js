@@ -13,5 +13,9 @@ router
   .post(controller.create)
   .get(controller.list)
   .all(methodNotAllowed);
+router
+  .route("/:tableId([0-9]+)")
+  .put(controller.updateSeatReservation)
+  .all(methodNotAllowed);
 
 module.exports = router;

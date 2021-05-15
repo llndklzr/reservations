@@ -7,7 +7,7 @@ function DateReservations({ reservations }) {
       reservation;
     return (
       <tr key={reservation_id}>
-        <td>{reservation_time}</td>
+        <td>{reservation_time.slice(0, 5)}</td>
         <td>{first_name}</td>
         <td>{last_name}</td>
         <td>{people}</td>

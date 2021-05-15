@@ -23,14 +23,13 @@ function Dashboard() {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
+    setTablesError(null);
     listTables(abortController.signal).then(setTables).catch(setTablesError);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
   }
-  // TODO: implement change handler for date
-  // TODO: only show current date reservations
   const dateInput = (date) => {
     return (
       <form className="form-group">
