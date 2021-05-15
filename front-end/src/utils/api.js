@@ -108,6 +108,7 @@ export async function createTable(data, signal) {
     body: JSON.stringify({ data }),
     signal,
   };
+  console.log(options.body);
   return await fetchJson(url, options);
 }
 
@@ -116,9 +117,10 @@ export async function updateSeatReservation(table_id, reservation_id, signal) {
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ reservation_id }),
+    body: JSON.stringify({ data: { reservation_id } }),
     signal,
   };
+  console.log(options.body);
   return await fetchJson(url, options);
 }
 
