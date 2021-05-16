@@ -11,7 +11,12 @@ function TablesDisplay({ tables, finishTable }) {
         </td>
         <td>
           {table.reservation_id ? (
-            <Button onClick={() => finishTable(table.table_id)}>Finish</Button>
+            <Button
+              data-table-id-finish={table.table_id}
+              onClick={() => finishTable(table.table_id)}
+            >
+              Finish
+            </Button>
           ) : null}
         </td>
       </tr>
