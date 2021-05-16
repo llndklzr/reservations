@@ -8,21 +8,24 @@ import TableForm from "../utils/components/TableForm";
 function NewTable() {
   const initialFormData = {
     table_name: "",
-    capacity: "1",
+    capacity: 1,
   };
   const [formData, setFormData] = useState(initialFormData);
   const [tableErrors, setTableErrors] = useState([]);
   const history = useHistory();
   const handleChange = ({ target }) => {
+    let newValue = target.value;
+    if (target.type === "number") {
+      newValue = Number(newValue);
+    }
     setFormData({
       ...formData,
-      [target.name]: target.value,
+      [target.name]: newValue,
     });
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
     const abortController = new AbortController();
-
     const errors = tableFormValidation(formData);
     if (errors.length) {
       setTableErrors(errors);

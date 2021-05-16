@@ -5,7 +5,7 @@
  */
 
 const router = require("express").Router();
-const controller = require("./dining_areas.controller");
+const controller = require("./tables.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
@@ -13,8 +13,9 @@ router
   .post(controller.create)
   .get(controller.list)
   .all(methodNotAllowed);
+router.route("/:tableId([0-9]+)").get(controller.read).all(methodNotAllowed);
 router
-  .route("/:tableId([0-9]+)")
+  .route("/:tableId([0-9]+)/seat")
   .put(controller.updateSeatReservation)
   .all(methodNotAllowed);
 
