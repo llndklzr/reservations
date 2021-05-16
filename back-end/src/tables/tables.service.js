@@ -43,7 +43,6 @@ function readTableByReservation(reservation_id) {
 }
 
 function updateSeatReservation(reservation_id, table_id) {
-  console.log(`reservation_id: ${reservation_id}, table_id: ${table_id}`);
   return knex("tables")
     .where({ table_id })
     .update({ reservation_id }, [
@@ -52,6 +51,18 @@ function updateSeatReservation(reservation_id, table_id) {
       "capacity",
       "reservation_id",
     ]);
+}
+
+function deleteSeatReservation(table_id) {
+  return knex("tables")
+    .where({ table_id })
+    .update({ reservation_id: null }, [
+      "table_id",
+      "table_name",
+      "capacity",
+      "reservation_id",
+    ])
+    .then((result) => result[0]);
 }
 
 function list() {
@@ -64,5 +75,6 @@ module.exports = {
   readReservation,
   readTableByReservation,
   updateSeatReservation,
+  deleteSeatReservation,
   list,
 };

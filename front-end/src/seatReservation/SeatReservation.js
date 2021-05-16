@@ -37,7 +37,6 @@ function SeatReservation() {
       ...formData,
       [target.name]: target.value,
     });
-    console.log(formData);
   };
 
   const handleSubmit = async (event) => {

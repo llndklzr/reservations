@@ -55,7 +55,18 @@ function tableVacant(req, res, next) {
   }
   next({
     status: 400,
-    message: `table_id '${table.table_id}' is occupied by reservation_id '${table.reservation_id}'`,
+    message: `table_id '${table.table_id}' is occupied by reservation_id '${table.reservation_id}'.`,
+  });
+}
+
+function tableNotVacant(req, res, next) {
+  const table = res.locals.table;
+  if (table.reservation_id) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `table_id '${table.table_id}' is not occupied.`,
   });
 }
 
@@ -116,6 +127,12 @@ async function updateSeatReservation(req, res) {
   res.json({ data });
 }
 
+async function deleteSeatReservation(req, res) {
+  const data = await service.deleteSeatReservation(req.params.tableId);
+  console.log(data);
+  res.status(200).json({ data });
+}
+
 async function list(req, res) {
   const data = await service.list();
   res.json({ data });
@@ -139,6 +156,11 @@ module.exports = {
     asyncErrorBoundary(hasEnoughCapacity),
     asyncErrorBoundary(reservationAlreadySeated),
     asyncErrorBoundary(updateSeatReservation),
+  ],
+  deleteSeatReservation: [
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(tableNotVacant),
+    asyncErrorBoundary(deleteSeatReservation),
   ],
   list: asyncErrorBoundary(list),
 };

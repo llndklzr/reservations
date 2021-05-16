@@ -45,7 +45,7 @@ function TableSelect({ tables, reservation, handleChange, handleSubmit }) {
   // happy path
   const selectOptions = availableTables.map((table) => {
     return (
-      <option value={table.table_id}>
+      <option key={table.table_id} value={table.table_id}>
         {table.table_name} - {table.capacity}
       </option>
     );

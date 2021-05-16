@@ -108,7 +108,6 @@ export async function createTable(data, signal) {
     body: JSON.stringify({ data }),
     signal,
   };
-  console.log(options.body);
   return await fetchJson(url, options);
 }
 
@@ -120,7 +119,17 @@ export async function updateSeatReservation(table_id, reservation_id, signal) {
     body: JSON.stringify({ data: { reservation_id } }),
     signal,
   };
-  console.log(options.body);
+  return await fetchJson(url, options);
+}
+
+export async function deleteReservationId(table_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ data: { table_id } }),
+    signal,
+  };
   return await fetchJson(url, options);
 }
 

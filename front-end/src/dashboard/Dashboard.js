@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listTables } from "../utils/api";
+import {
+  deleteReservationId,
+  listReservations,
+  listTables,
+} from "../utils/api";
 import ErrorAlert from "../errors/ErrorAlert";
 import DateReservations from "./DateReservations";
 import TablesDisplay from "./TablesDisplay";
@@ -17,19 +21,35 @@ function Dashboard() {
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
   const [date, setDate] = useState(today());
+  const [loading, setLoading] = useState(false);
 
-  useEffect(loadDashboard, [date]);
+  useEffect(loadDashboard, [date, loading]);
 
   function loadDashboard() {
     const abortController = new AbortController();
+    setLoading(true);
     setReservationsError(null);
     setTablesError(null);
     listTables(abortController.signal).then(setTables).catch(setTablesError);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    setLoading(false);
     return () => abortController.abort();
   }
+
+  const finishTable = async (table_id) => {
+    const abortController = new AbortController();
+    setTablesError(null);
+    try {
+      const data = await deleteReservationId(table_id, abortController.signal);
+      setLoading(true);
+    } catch (error) {
+      setTablesError(error);
+    }
+    return () => abortController.abort();
+  };
+
   const dateInput = (date) => {
     return (
       <form className="form-group">
@@ -56,7 +76,7 @@ function Dashboard() {
       <ErrorAlert error={reservationsError} />
       <DateReservations reservations={reservations} />
       <ErrorAlert error={tablesError} />
-      <TablesDisplay tables={tables} />
+      <TablesDisplay tables={tables} finishTable={finishTable} />
     </main>
   );
 }
