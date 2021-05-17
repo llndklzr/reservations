@@ -82,6 +82,17 @@ export async function readReservation(reservationId, signal) {
     .then(formatReservationTime);
 }
 
+export async function updateReservationStatus(data, reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
 /**
  * Retrieves all existing reservation.
  * @returns {Promise<[reservation]>}

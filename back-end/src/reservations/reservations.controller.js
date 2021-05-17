@@ -79,7 +79,12 @@ function hasValidPeople(req, res, next) {
 
 function hasValidStatus(req, res, next) {
   const { status } = req.body.data;
-  if (status === "booked" || status === "seated" || status === "finished") {
+  if (
+    status === "booked" ||
+    status === "seated" ||
+    status === "finished" ||
+    status === "cancelled"
+  ) {
     return next();
   }
   next({

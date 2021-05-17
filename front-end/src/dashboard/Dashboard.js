@@ -74,7 +74,8 @@ function Dashboard() {
         <h4 className="mb-0">Reservations for {dateInput(date)}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationsList reservations={reservations} />
+      <ReservationsList reservations={reservations} setLoading={setLoading} />
+      <h4 className="mb-2">Tables</h4>
       <ErrorAlert error={tablesError} />
       <TablesDisplay tables={tables} finishTable={finishTable} />
     </main>
