@@ -16,12 +16,12 @@ function NewReservation() {
     reservation_date: today(),
     reservation_time: "",
   };
-  const [formData, setformData] = useState(initialFormData);
+  const [formData, setFormData] = useState(initialFormData);
   const [reservationErrors, setReservationErrors] = useState([]);
   const history = useHistory();
 
   const handleChange = ({ target }) => {
-    setformData({
+    setFormData({
       ...formData,
       [target.name]: target.value,
     });

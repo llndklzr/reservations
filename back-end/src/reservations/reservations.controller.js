@@ -16,10 +16,35 @@ const REQUIRED_PROPERTIES = [
   "reservation_date",
   "reservation_time",
 ];
+const UPDATE_REQUIRED_PROPERTIES = [
+  "first_name",
+  "last_name",
+  "people",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+];
+
+const UPDATE_VALID_PROPERTIES = [
+  "reservation_id",
+  "status",
+  "created_at",
+  "updated_at",
+  "first_name",
+  "last_name",
+  "people",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+];
 
 //! <<------- VALIDATION ------->>
 const hasOnlyValidProperties = onlyValidProperties(REQUIRED_PROPERTIES);
 const hasRequiredProperties = hasProperties(REQUIRED_PROPERTIES);
+const hasOnlyValidUpdateProperties = onlyValidProperties(
+  UPDATE_VALID_PROPERTIES
+);
+const hasRequiredUpdateProperties = hasProperties(UPDATE_REQUIRED_PROPERTIES);
 const hasOnlyStatus = onlyValidProperties(["status"]);
 const hasRequiredStatus = hasProperties(["status"]);
 
@@ -34,6 +59,18 @@ async function reservationExists(req, res, next) {
   next({
     status: 404,
     message: `Reservation ${reservationId} cannot be found.`,
+  });
+}
+
+function reservationIdIsCorrectIfPresent(req, res, next) {
+  const { reservationId } = req.params;
+  const { reservation_id } = res.locals.reservation;
+  if (!reservation_id || Number(reservation_id) === Number(reservationId)) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `reservation_id '${reservation_id}' should be absent or match url '${reservationId}'.`,
   });
 }
 
@@ -65,7 +102,7 @@ function hasValidTime(req, res, next) {
 }
 
 function hasValidPeople(req, res, next) {
-  const people = Number(req.body.data.people);
+  const people = req.body.data.people;
   const valid = Number.isInteger(people);
 
   if (valid && people > 0) {
@@ -73,7 +110,7 @@ function hasValidPeople(req, res, next) {
   }
   next({
     status: 400,
-    message: `Party size '${people}' is not a valid integer`,
+    message: `people '${people}' is not a valid integer`,
   });
 }
 
@@ -94,7 +131,7 @@ function hasValidStatus(req, res, next) {
 }
 
 function statusIsBooked(req, res, next) {
-  const { status } = req.body.data;
+  const { status } = res.locals.reservation;
 
   if (status === "booked") {
     return next();
@@ -172,6 +209,13 @@ function read(req, res) {
   res.json({ data });
 }
 
+async function update(req, res) {
+  const updatedReservation = { ...req.body.data };
+  const { reservationId } = req.params;
+  const data = await service.update(reservationId, updatedReservation);
+  res.status(200).json({ data });
+}
+
 async function updateStatus(req, res) {
   const { status } = req.body.data;
   const { reservationId } = req.params;
@@ -208,6 +252,20 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    reservationIdIsCorrectIfPresent,
+    hasOnlyValidUpdateProperties,
+    hasRequiredUpdateProperties,
+    hasValidDate,
+    hasValidTime,
+    hasValidPeople,
+    statusIsBooked,
+    noReservationsOnTuesdays,
+    noReservationsInPast,
+    reservationIsDuringBusinessHours,
+    asyncErrorBoundary(update),
+  ],
   updateStatus: [
     asyncErrorBoundary(reservationExists),
     hasOnlyStatus,

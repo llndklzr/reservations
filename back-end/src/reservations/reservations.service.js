@@ -15,6 +15,13 @@ function read(reservation_id) {
     .then((reservation) => reservation[0]);
 }
 
+function update(reservation_id, updatedReservation) {
+  return knex("reservations")
+    .where({ reservation_id })
+    .update({ ...updatedReservation }, "*")
+    .then((result) => result[0]);
+}
+
 function updateStatus(reservation_id, status) {
   return knex("reservations")
     .where({ reservation_id })
@@ -47,6 +54,7 @@ function listByPhone(mobile_number) {
 module.exports = {
   create,
   read,
+  update,
   updateStatus,
   list,
   listByDate,
