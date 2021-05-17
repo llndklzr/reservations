@@ -128,8 +128,8 @@ async function updateSeatReservation(req, res) {
 }
 
 async function deleteSeatReservation(req, res) {
-  const data = await service.deleteSeatReservation(req.params.tableId);
-  console.log(data);
+  const { table_id, reservation_id } = res.locals.table;
+  const data = await service.deleteSeatReservation(table_id, reservation_id);
   res.status(200).json({ data });
 }
 

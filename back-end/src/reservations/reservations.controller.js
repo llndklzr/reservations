@@ -11,6 +11,7 @@ const REQUIRED_PROPERTIES = [
   "first_name",
   "last_name",
   "people",
+  "status",
   "mobile_number",
   "reservation_date",
   "reservation_time",
@@ -19,6 +20,8 @@ const REQUIRED_PROPERTIES = [
 //! <<------- VALIDATION ------->>
 const hasOnlyValidProperties = onlyValidProperties(REQUIRED_PROPERTIES);
 const hasRequiredProperties = hasProperties(REQUIRED_PROPERTIES);
+const hasOnlyStatus = onlyValidProperties(["status"]);
+const hasRequiredStatus = hasProperties(["status"]);
 
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;
@@ -74,6 +77,40 @@ function hasValidPeople(req, res, next) {
   });
 }
 
+function hasValidStatus(req, res, next) {
+  const { status } = req.body.data;
+  if (status === "booked" || status === "seated" || status === "finished") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `status '${status}' should be: 'booked', 'seated', or 'finished'.`,
+  });
+}
+
+function statusIsBooked(req, res, next) {
+  const { status } = req.body.data;
+
+  if (status === "booked") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `New reservation status should be "booked", received '${status}'.`,
+  });
+}
+
+function statusIsNotFinished(req, res, next) {
+  const { status } = res.locals.reservation;
+  if (status === "finished") {
+    return next({
+      status: 400,
+      message: `Cannot update a reservation where status is already 'finished'.`,
+    });
+  }
+  next();
+}
+
 function noReservationsOnTuesdays(req, res, next) {
   const reservation_date = req.body.data.reservation_date;
   const weekday = new Date(reservation_date).getUTCDay();
@@ -119,13 +156,22 @@ function reservationIsDuringBusinessHours(req, res, next) {
 
 //! <<-------   CRUDL    ------->>
 async function create(req, res) {
-  const data = await service.create(req.body.data);
+  const newReservation = { ...req.body.data };
+
+  const data = await service.create(newReservation);
   res.status(201).json({ data });
 }
 
 function read(req, res) {
   const data = res.locals.reservation;
   res.json({ data });
+}
+
+async function updateStatus(req, res) {
+  const { status } = req.body.data;
+  const { reservationId } = req.params;
+  const data = await service.updateStatus(reservationId, status);
+  res.status(200).json({ data });
 }
 
 async function list(req, res) {
@@ -147,11 +193,20 @@ module.exports = {
     hasValidDate,
     hasValidTime,
     hasValidPeople,
+    statusIsBooked,
     noReservationsOnTuesdays,
     noReservationsInPast,
     reservationIsDuringBusinessHours,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  updateStatus: [
+    asyncErrorBoundary(reservationExists),
+    hasOnlyStatus,
+    hasRequiredStatus,
+    hasValidStatus,
+    statusIsNotFinished,
+    asyncErrorBoundary(updateStatus),
+  ],
   list: asyncErrorBoundary(list),
 };

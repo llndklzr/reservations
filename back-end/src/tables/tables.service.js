@@ -22,6 +22,7 @@ function read(table_id) {
       "r.reservation_date",
       "r.reservation_time",
       "r.people",
+      "r.status",
       "r.created_at as reservation_created",
       "r.updated_at as reservation_updated"
     )
@@ -42,27 +43,48 @@ function readTableByReservation(reservation_id) {
     .then((result) => result[0]);
 }
 
-function updateSeatReservation(reservation_id, table_id) {
-  return knex("tables")
-    .where({ table_id })
-    .update({ reservation_id }, [
-      "table_id",
-      "table_name",
-      "capacity",
-      "reservation_id",
-    ]);
+async function updateSeatReservation(reservation_id, table_id) {
+  const trx = await knex.transaction();
+  let updatedTable = {};
+  return trx("reservations")
+    .where({ reservation_id })
+    .update({ status: "seated" })
+    .then(() =>
+      trx("tables")
+        .where({ table_id })
+        .update({ reservation_id }, [
+          "table_id",
+          "table_name",
+          "capacity",
+          "reservation_id",
+        ])
+        .then((result) => (updatedTable = result[0]))
+    )
+    .then(trx.commit)
+    .then(() => updatedTable)
+    .catch(trx.rollback);
+
+  // return knex("tables")
+  //   .where({ table_id })
+  //   .update({ reservation_id }, [
+  //     "table_id",
+  //     "table_name",
+  //     "capacity",
+  //     "reservation_id",
+  //   ]);
 }
 
-function deleteSeatReservation(table_id) {
-  return knex("tables")
-    .where({ table_id })
-    .update({ reservation_id: null }, [
-      "table_id",
-      "table_name",
-      "capacity",
-      "reservation_id",
-    ])
-    .then((result) => result[0]);
+async function deleteSeatReservation(table_id, reservation_id) {
+  const trx = await knex.transaction();
+
+  return trx("reservations")
+    .where({ reservation_id })
+    .update({ status: "finished" })
+    .then(() =>
+      trx("tables").where({ table_id }).update({ reservation_id: null })
+    )
+    .then(trx.commit)
+    .catch(trx.rollback);
 }
 
 function list() {

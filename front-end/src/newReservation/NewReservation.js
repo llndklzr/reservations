@@ -11,6 +11,7 @@ function NewReservation() {
     first_name: "",
     last_name: "",
     people: "1",
+    status: "booked",
     mobile_number: "",
     reservation_date: today(),
     reservation_time: "",
