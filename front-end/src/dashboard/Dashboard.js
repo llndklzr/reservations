@@ -5,9 +5,9 @@ import {
   listTables,
 } from "../utils/api";
 import ErrorAlert from "../errors/ErrorAlert";
-import DateReservations from "./DateReservations";
 import TablesDisplay from "./TablesDisplay";
 import { today } from "../utils/date-time";
+import ReservationsList from "../utils/components/ReservationsList";
 
 /**
  * Defines the dashboard page.
@@ -74,7 +74,7 @@ function Dashboard() {
         <h4 className="mb-0">Reservations for {dateInput(date)}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <DateReservations reservations={reservations} />
+      <ReservationsList reservations={reservations} />
       <ErrorAlert error={tablesError} />
       <TablesDisplay tables={tables} finishTable={finishTable} />
     </main>

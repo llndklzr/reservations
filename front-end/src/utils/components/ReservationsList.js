@@ -1,7 +1,7 @@
-import { Button } from "../utils/components/buttons";
+import { Button } from "./buttons";
 import { Link } from "react-router-dom";
 
-function DateReservations({ reservations }) {
+function ReservationsList({ reservations }) {
   const rows = reservations.map((reservation) => {
     const {
       reservation_id,
@@ -46,4 +46,4 @@ function DateReservations({ reservations }) {
   );
 }
 
-export default DateReservations;
+export default ReservationsList;

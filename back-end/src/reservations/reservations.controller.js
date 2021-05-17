@@ -175,10 +175,13 @@ async function updateStatus(req, res) {
 }
 
 async function list(req, res) {
-  const { date } = req.query;
+  const { date, mobile_number } = req.query;
 
   if (date) {
     const data = await service.listByDate(date);
+    res.json({ data });
+  } else if (mobile_number) {
+    const data = await service.listByPhone(mobile_number);
     res.json({ data });
   } else {
     const data = await service.list();

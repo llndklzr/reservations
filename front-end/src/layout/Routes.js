@@ -6,6 +6,7 @@ import NotFound from "./NotFound";
 import NewReservation from "../newReservation/NewReservation";
 import NewTable from "../newTable/NewTable";
 import SeatReservation from "../seatReservation/SeatReservation";
+import SearchByPhone from "../searchByPhone/SearchByPhone";
 /**
  * Defines all the routes for the application.
  *
@@ -34,6 +35,9 @@ function Routes() {
       </Route>
       <Route path="/tables/new">
         <NewTable />
+      </Route>
+      <Route path="/search">
+        <SearchByPhone />
       </Route>
       <Route>
         <NotFound />
