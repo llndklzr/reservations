@@ -53,8 +53,22 @@ function TableSelect({ tables, reservation, handleChange, handleSubmit }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <legend>
+        <h2>
+          <em>Seat Reservation</em>
+        </h2>
+        <p className="text-muted mb-0">{`${
+          reservation.reservation_date
+        } at ${reservation.reservation_time.slice(0, 5)}: ${
+          reservation.first_name
+        } ${reservation.last_name} party of ${reservation.people} `}</p>
+      </legend>
       <div className="d-md-flex mb-3">
-        <select className="form-select" onChange={handleChange} name="table_id">
+        <select
+          className="form-select bg-dark"
+          onChange={handleChange}
+          name="table_id"
+        >
           <option defaultValue>Available tables</option>
           {selectOptions}
         </select>

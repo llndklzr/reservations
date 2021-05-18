@@ -11,7 +11,6 @@ function NewReservation() {
     first_name: "",
     last_name: "",
     people: "1",
-    status: "booked",
     mobile_number: "",
     reservation_date: today(),
     reservation_time: "",
@@ -21,9 +20,13 @@ function NewReservation() {
   const history = useHistory();
 
   const handleChange = ({ target }) => {
+    let newValue = target.value;
+    if (target.type === "number") {
+      newValue = Number(newValue);
+    }
     setFormData({
       ...formData,
-      [target.name]: target.value,
+      [target.name]: newValue,
     });
   };
 
@@ -50,7 +53,7 @@ function NewReservation() {
   };
 
   return (
-    <>
+    <main>
       {reservationErrors.length > 0 && (
         <FormErrors errors={reservationErrors} />
       )}
@@ -58,8 +61,9 @@ function NewReservation() {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         formData={formData}
+        legendTitle="New reservation"
       />
-    </>
+    </main>
   );
 }
 

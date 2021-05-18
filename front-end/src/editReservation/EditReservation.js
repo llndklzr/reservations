@@ -9,7 +9,6 @@ function EditReservation() {
   const { reservationId } = useParams();
 
   const [formData, setFormData] = useState({});
-  const [reservation, setReservation] = useState(null);
   const [errors, setErrors] = useState([]);
 
   const history = useHistory();
@@ -43,9 +42,13 @@ function EditReservation() {
   }
 
   const handleChange = ({ target }) => {
+    let newValue = target.value;
+    if (target.type === "number") {
+      newValue = Number(newValue);
+    }
     setFormData({
       ...formData,
-      [target.name]: target.value,
+      [target.name]: newValue,
     });
   };
 
@@ -77,12 +80,12 @@ function EditReservation() {
 
   return (
     <main>
-      <h1>Edit reservation</h1>
       {errors.length > 0 && <FormErrors errors={errors} />}
       <ReservationForm
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         formData={formData}
+        legendTitle="Edit reservation"
       />
     </main>
   );

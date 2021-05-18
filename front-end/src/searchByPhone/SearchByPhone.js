@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useHistory } from "react-router";
+import ErrorAlert from "../errors/ErrorAlert";
 import { listReservations } from "../utils/api";
 import { Button } from "../utils/components/buttons";
 import ReservationsList from "../utils/components/ReservationsList";
 
-function SearchByPhone() {
+function SearchByPhone({ setLoading }) {
   const initialFormData = {
     mobile_number: "",
   };
@@ -12,6 +14,8 @@ function SearchByPhone() {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(initialFormData);
   const [lastSearchNumber, setLastSearchNumber] = useState(null);
+
+  const history = useHistory();
 
   const phoneRegExp = /[\d -]+$/g;
 
@@ -51,9 +55,14 @@ function SearchByPhone() {
 
   return (
     <main>
-      <h1>Search</h1>
+      {error && <ErrorAlert error={error} />}
       <div className="d-md-flex mb-3"></div>
       <form onSubmit={handleSubmit} className="form-group">
+        <legend>
+          <h2>
+            <em>Search</em>
+          </h2>
+        </legend>
         <label className="form-label" htmlFor="mobile_number">
           Phone number
         </label>
@@ -72,7 +81,7 @@ function SearchByPhone() {
         <h4>{`No reservations found for ${lastSearchNumber}.`}</h4>
       )}
       {reservations.length > 0 && (
-        <ReservationsList reservations={reservations} />
+        <ReservationsList reservations={reservations} setLoading={setLoading} />
       )}
     </main>
   );

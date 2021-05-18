@@ -1,5 +1,4 @@
-import React from "react";
-
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 /**
@@ -9,53 +8,86 @@ import { Link } from "react-router-dom";
  */
 
 function Menu() {
+  const [navbarOpen, setNavbarOpen] = useState(false);
+  const handleToggle = () => {
+    setNavbarOpen((prev) => !prev);
+  };
   return (
-    <nav className="navbar navbar-dark align-items-start p-0">
-      <div className="container-fluid d-flex flex-column p-0">
-        <Link
-          className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-          to="/"
-        >
-          <div className="sidebar-brand-text mx-3">
-            <span>Periodic Tables</span>
-          </div>
-        </Link>
-        <hr className="sidebar-divider my-0" />
-        <ul className="nav navbar-nav text-light" id="accordionSidebar">
+    <nav className="sticky-top shadow-lg navbar navbar-dark mb-2 px-2 blur-behind">
+      <Link to="/" className="navbar-brand">
+        <span className="brand">seats for eats</span>
+      </Link>
+      <button
+        className="navbar-toggler ml-auto"
+        type="button"
+        onClick={handleToggle}
+      >
+        <span className="navbar-toggler-icon my-toggler"></span>
+      </button>
+      <div className={`navbar-collapse ${navbarOpen ? "expand" : "collapse"}`}>
+        <ul className="navbar-nav mx-auto">
           <li className="nav-item">
-            <Link className="nav-link" to="/dashboard">
-              <span className="oi oi-dashboard" />
+            <Link className="nav-link" to="/dashboard" onClick={handleToggle}>
+              <span className="oi oi-spreadsheet" />
               &nbsp;Dashboard
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/search">
+            <Link className="nav-link" to="/search" onClick={handleToggle}>
               <span className="oi oi-magnifying-glass" />
               &nbsp;Search
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/reservations/new">
-              <span className="oi oi-plus" />
+            <Link
+              className="nav-link"
+              to="/reservations/new"
+              onClick={handleToggle}
+            >
+              <span className="oi oi-calendar" />
               &nbsp;New Reservation
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/tables/new">
-              <span className="oi oi-layers" />
+            <Link className="nav-link" to="/tables/new" onClick={handleToggle}>
+              <span className="oi oi-vertical-align-top" />
               &nbsp;New Table
             </Link>
           </li>
         </ul>
-        <div className="text-center d-none d-md-inline">
-          <button
-            className="btn rounded-circle border-0"
-            id="sidebarToggle"
-            type="button"
-          />
-        </div>
       </div>
     </nav>
+
+    // <nav className="navbar">
+    //   <Link className="navbar-brand" to="/">
+    //     Periodic Tables
+    //   </Link>
+    //   <Button onClick={handleToggle}>{navbarOpen ? "Close" : "Open"}</Button>
+    //   {/* collapsibe content */}
+    //   <ul className={`navbar-nav ${navbarOpen ? " showMenu" : ""}`}>
+    //     <li className="nav-item">
+
+    //     </li>
+    //     <li className="nav-item">
+    //       <Link className="nav-link" to="/search">
+    //         <span className="oi oi-magnifying-glass" />
+    //         &nbsp;Search
+    //       </Link>
+    //     </li>
+    //     <li className="nav-item">
+    //       <Link className="nav-link" to="/reservations/new">
+    //         <span className="oi oi-plus" />
+    //         &nbsp;New Reservation
+    //       </Link>
+    //     </li>
+    //     <li className="nav-item">
+    //       <Link className="nav-link" to="/tables/new">
+    //         <span className="oi oi-layers" />
+    //         &nbsp;New Table
+    //       </Link>
+    //     </li>
+    //   </ul>
+    // </nav>
   );
 }
 

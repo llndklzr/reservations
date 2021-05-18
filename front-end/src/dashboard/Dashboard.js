@@ -15,13 +15,12 @@ import ReservationsList from "../utils/components/ReservationsList";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard() {
+function Dashboard({ loading, setLoading }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
   const [date, setDate] = useState(today());
-  const [loading, setLoading] = useState(false);
 
   useEffect(loadDashboard, [date, loading]);
 
@@ -69,9 +68,10 @@ function Dashboard() {
 
   return (
     <main>
-      <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {dateInput(date)}</h4>
+        <h2>
+          <em>Reservations for {dateInput(date)}</em>
+        </h2>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationsList reservations={reservations} setLoading={setLoading} />

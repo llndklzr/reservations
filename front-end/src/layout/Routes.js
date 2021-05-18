@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
@@ -17,6 +17,7 @@ import EditReservation from "../editReservation/EditReservation";
  */
 
 function Routes() {
+  const [loading, setLoading] = useState(false);
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -26,7 +27,7 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard />
+        <Dashboard loading={loading} setLoading={setLoading} />
       </Route>
       <Route path="/reservations/new">
         <NewReservation />
@@ -41,7 +42,7 @@ function Routes() {
         <NewTable />
       </Route>
       <Route path="/search">
-        <SearchByPhone />
+        <SearchByPhone loading={loading} setLoading={setLoading} />
       </Route>
       <Route>
         <NotFound />

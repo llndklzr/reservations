@@ -1,4 +1,25 @@
-.side-bar {
-  background-color: #393a44;
-  min-width: 200px;
+.blur-behind {
+  backdrop-filter: blur(15px) saturate(70%);
+}
+
+.brand {
+  font-size: 2rem;
+}
+
+body {
+  font-family: Consolas, monospace;
+}
+
+table {
+  table-layout: fixed;
+}
+
+td.truncate {
+  white-space: unset;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+form{
+  max-width: 768px;
+  margin: auto;
 }

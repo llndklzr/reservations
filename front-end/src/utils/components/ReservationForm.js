@@ -1,11 +1,12 @@
 import { Button } from "./buttons";
 import { useHistory } from "react-router-dom";
 
-function ReservationForm({ handleChange, handleSubmit, formData}) {
+function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
   const history = useHistory();
 
   const renderView = (
     <form onSubmit={handleSubmit} className="form-group">
+      <legend><h2><em>{legendTitle}</em></h2></legend>
       <label className="form-label" htmlFor="first_name">First name</label>
       <input
         className="form-control"

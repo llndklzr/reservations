@@ -58,17 +58,11 @@ function SeatReservation() {
 
   return (
     <main>
-      <h1>Seat Reservation</h1>
+
       {errors.length > 0 && <FormErrors errors={errors} />}
       {reservation && tables && (
         <>
-          <div className="d-md-flex mb-3">
-            <h4 className="mb-0">{`${reservation.first_name} ${
-              reservation.last_name
-            } party of ${
-              reservation.people
-            } at ${reservation.reservation_time.slice(0, 5)}`}</h4>
-          </div>
+
           <TableSelect
             tables={tables}
             reservation={reservation}

@@ -1,12 +1,13 @@
 import { Button } from "./buttons";
 import { useHistory } from "react-router-dom";
 
-function TableForm({ handleChange, handleSubmit, formData }) {
+function TableForm({ handleChange, handleSubmit, formData, legendTitle }) {
   console.log(formData);
   const history = useHistory();
 
   const renderView = (
     <form onSubmit={handleSubmit} className="form-group">
+      <legend><h2><em>{legendTitle}</em></h2></legend>
       <label className="form-label" htmlFor="table_name">
         Table name
       </label>

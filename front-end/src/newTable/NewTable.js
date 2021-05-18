@@ -45,14 +45,15 @@ function NewTable() {
   };
 
   return (
-    <div>
+    <main>
       {tableErrors.length > 0 && <FormErrors errors={tableErrors} />}
       <TableForm
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         formData={formData}
+        legendTitle="New table"
       />
-    </div>
+    </main>
   );
 }
 

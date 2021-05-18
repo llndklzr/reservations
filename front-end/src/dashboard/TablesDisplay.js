@@ -1,4 +1,4 @@
-import { Button } from "../utils/components/buttons";
+import { TableButton } from "../utils/components/buttons";
 
 function TablesDisplay({ tables, finishTable }) {
   const rows = tables.map((table) => {
@@ -11,23 +11,23 @@ function TablesDisplay({ tables, finishTable }) {
         </td>
         <td>
           {table.reservation_id ? (
-            <Button
+            <TableButton
               data-table-id-finish={table.table_id}
               onClick={() => finishTable(table.table_id)}
             >
               Finish
-            </Button>
+            </TableButton>
           ) : null}
         </td>
       </tr>
     );
   });
   return (
-    <table className="table table-dark table-striped table-hover ">
+    <table className="table table-striped table-hover">
       <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Capacity</th>
+          <th scope="col" >Capacity</th>
           <th scope="col">Status</th>
           <th scope="col">Finish</th>
         </tr>

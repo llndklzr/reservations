@@ -11,6 +11,14 @@ const REQUIRED_PROPERTIES = [
   "first_name",
   "last_name",
   "people",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+];
+const VALID_PROPERTIES = [
+  "first_name",
+  "last_name",
+  "people",
   "status",
   "mobile_number",
   "reservation_date",
@@ -39,7 +47,7 @@ const UPDATE_VALID_PROPERTIES = [
 ];
 
 //! <<------- VALIDATION ------->>
-const hasOnlyValidProperties = onlyValidProperties(REQUIRED_PROPERTIES);
+const hasOnlyValidProperties = onlyValidProperties(VALID_PROPERTIES);
 const hasRequiredProperties = hasProperties(REQUIRED_PROPERTIES);
 const hasOnlyValidUpdateProperties = onlyValidProperties(
   UPDATE_VALID_PROPERTIES
@@ -138,7 +146,19 @@ function statusIsBooked(req, res, next) {
   }
   next({
     status: 400,
-    message: `New reservation status should be "booked", received '${status}'.`,
+    message: `status should be "booked", received '${status}'.`,
+  });
+}
+
+function statusIsBookedIfPresent(req, res, next) {
+  const { status } = req.body.data;
+
+  if (!status || status === "booked") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `status should be "booked" or absent, received '${status}'`,
   });
 }
 
@@ -198,8 +218,7 @@ function reservationIsDuringBusinessHours(req, res, next) {
 
 //! <<-------   CRUDL    ------->>
 async function create(req, res) {
-  const newReservation = { ...req.body.data };
-
+  const newReservation = { ...req.body.data, status: "booked" };
   const data = await service.create(newReservation);
   res.status(201).json({ data });
 }
@@ -245,7 +264,7 @@ module.exports = {
     hasValidDate,
     hasValidTime,
     hasValidPeople,
-    statusIsBooked,
+    statusIsBookedIfPresent,
     noReservationsOnTuesdays,
     noReservationsInPast,
     reservationIsDuringBusinessHours,
