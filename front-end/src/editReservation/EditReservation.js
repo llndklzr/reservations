@@ -5,6 +5,11 @@ import { useHistory, useParams } from "react-router-dom";
 import { readReservation, updateReservation } from "../utils/api";
 import FormErrors from "../errors/FormErrors";
 
+
+/** Page to edit an existing reservation
+ * 
+ * @returns {JSX.Element}
+ */
 function EditReservation() {
   const { reservationId } = useParams();
 

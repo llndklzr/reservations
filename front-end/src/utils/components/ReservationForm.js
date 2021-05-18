@@ -1,6 +1,17 @@
 import { Button } from "./buttons";
 import { useHistory } from "react-router-dom";
-
+/** Form to create or update a reservation.
+ * 
+ * @param {Function} handleChange
+ * change handler for formData 
+ * @param {Function} handleSubmit
+ * submit handler for form
+ * @param {Object} formData
+ * data for controlled input 
+ * @param {String} legendTitle
+ * the title for the page using the form 
+ * @returns {JSX Element}
+ */
 function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
   const history = useHistory();
 

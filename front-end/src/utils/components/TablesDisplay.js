@@ -1,5 +1,10 @@
-import { TableButton } from "../utils/components/buttons";
-
+import { TableButton } from "./buttons";
+/** Renders a table of the restaurant's tables
+ * 
+ * @param {Array} tables
+ * an array of table objects 
+ * @returns {JSX Element}
+ */
 function TablesDisplay({ tables, finishTable }) {
   const rows = tables.map((table) => {
     return (

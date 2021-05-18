@@ -3,7 +3,13 @@ import ErrorAlert from "../errors/ErrorAlert";
 import { listReservations } from "../utils/api";
 import { Button } from "../utils/components/buttons";
 import ReservationsList from "../utils/components/ReservationsList";
-
+/** Defines the page to search for a reservation by phone number.
+ * 
+ * @param {function} setLoading
+ * state setter to trigger render 
+ * @returns {JSX Element}
+ * 
+ */
 function SearchByPhone({ setLoading }) {
   const initialFormData = {
     mobile_number: "",
@@ -53,7 +59,7 @@ function SearchByPhone({ setLoading }) {
   return (
     <main>
       {error && <ErrorAlert error={error} />}
-      <div className="d-md-flex mb-3"></div>
+      <div className="mb-3"></div>
       <form onSubmit={handleSubmit} className="form-group">
         <legend>
           <h2>

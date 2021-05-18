@@ -3,7 +3,14 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ErrorAlert from "../../errors/ErrorAlert";
 import { updateReservationStatus } from "../api";
-
+/** Renders a list of reservations
+ * 
+ * @param {Array} reservations
+ * An array of reservation objects
+ * @param {Function} setLoading
+ * Function to trigger a render
+ * @returns {JSX Element}
+ */
 function ReservationsList({ reservations, setLoading }) {
   const [error, setError] = useState(null);
   const history = useHistory();

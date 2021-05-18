@@ -1,3 +1,11 @@
+/** Checks the argument formData for validation before sending to API.
+ * 
+ * @param {Object} table
+ * formData representing a new table to be validated.
+ * @returns {Array}
+ * errors as an array, empty array if no errors
+ */
+
 function tableFormValidation({ table_name, capacity }) {
   const errors = [];
 

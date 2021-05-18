@@ -1,3 +1,10 @@
+/** A series of tests to match a new or updated reservation with specified criteria.
+ * 
+ * @param {Object} reservation
+ * Form data regarding a reservation to be validated.
+ * @returns {Array}
+ * errors as an array. Empty array if no errors.
+ */
 function reservationFormValidation({
   first_name,
   last_name,
@@ -7,6 +14,7 @@ function reservationFormValidation({
   reservation_time,
 }) {
   const errors = [];
+  // numbers and dashes only in the form XXX-XXX-XXXX
   const phoneRegex = /[0-9]{3}-[0-9]{3}-[0-9]{4}/;
 
   if (!first_name) {

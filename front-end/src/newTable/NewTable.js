@@ -4,7 +4,10 @@ import FormErrors from "../errors/FormErrors";
 import tableFormValidation from "../errors/tableFormValidation";
 import { createTable } from "../utils/api";
 import TableForm from "../utils/components/TableForm";
-
+/** Defines the page to create a new table.
+ *
+ * @returns {JSX Element}
+ */
 function NewTable() {
   const initialFormData = {
     table_name: "",
@@ -15,6 +18,7 @@ function NewTable() {
   const history = useHistory();
   const handleChange = ({ target }) => {
     let newValue = target.value;
+    // combat the form changing numbers to strings for backend validation.
     if (target.type === "number") {
       newValue = Number(newValue);
     }

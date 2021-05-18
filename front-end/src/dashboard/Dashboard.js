@@ -5,14 +5,12 @@ import {
   listTables,
 } from "../utils/api";
 import ErrorAlert from "../errors/ErrorAlert";
-import TablesDisplay from "./TablesDisplay";
+import TablesDisplay from "../utils/components/TablesDisplay";
 import { today } from "../utils/date-time";
 import ReservationsList from "../utils/components/ReservationsList";
 
 /**
  * Defines the dashboard page.
- * @param date
- *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
 function Dashboard({ loading, setLoading }) {
@@ -22,7 +20,7 @@ function Dashboard({ loading, setLoading }) {
   const [tablesError, setTablesError] = useState(null);
   const [date, setDate] = useState(today());
 
-  useEffect(loadDashboard, [date, loading]);
+  useEffect(loadDashboard, [date, loading, setLoading]);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -41,14 +39,14 @@ function Dashboard({ loading, setLoading }) {
     const abortController = new AbortController();
     setTablesError(null);
     try {
-      const data = await deleteReservationId(table_id, abortController.signal);
+      await deleteReservationId(table_id, abortController.signal);
       setLoading(true);
     } catch (error) {
       setTablesError(error);
     }
     return () => abortController.abort();
   };
-
+  // form input to change the date to show ReservationsList
   const dateInput = (date) => {
     return (
       <form className="form-group">
@@ -73,10 +71,14 @@ function Dashboard({ loading, setLoading }) {
           <em>Reservations for {dateInput(date)}</em>
         </h2>
       </div>
-      <ErrorAlert error={reservationsError} />
+      {reservationsError && <ErrorAlert error={reservationsError} />}
       <ReservationsList reservations={reservations} setLoading={setLoading} />
-      <h4 className="mb-2">Tables</h4>
-      <ErrorAlert error={tablesError} />
+      <div className="mt-4">
+        <h2>
+          <em>Tables</em>
+        </h2>
+      </div>
+      {tablesError && <ErrorAlert error={tablesError} />}
       <TablesDisplay tables={tables} finishTable={finishTable} />
     </main>
   );

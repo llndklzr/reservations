@@ -1,3 +1,10 @@
+/**
+ * Defines the alert message(s) to render for one or more errors.
+ * @param errors
+ *  an array of objects with `.message` property as a string.
+ * @returns {JSX.Element}
+ *  a bootstrap danger alert that contains the message string.
+ */
 function FormErrors({ errors }) {
   let index = 0;
   return (

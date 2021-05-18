@@ -1,6 +1,17 @@
 import { Button } from "./buttons";
 import { useHistory } from "react-router-dom";
-
+/** Form to create or update a table.
+ * 
+ * @param {Function} handleChange
+ * change handler for form 
+ * @param {Function} handleSubmit
+ * submit handler for form 
+ * @param {Object} formData 
+ * an object for controlled input
+ * @param {String} legendTitle
+ * title for page using form
+ * @returns {JSX Element}
+ */
 function TableForm({ handleChange, handleSubmit, formData, legendTitle }) {
   console.log(formData);
   const history = useHistory();

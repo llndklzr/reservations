@@ -57,37 +57,6 @@ function Menu() {
         </ul>
       </div>
     </nav>
-
-    // <nav className="navbar">
-    //   <Link className="navbar-brand" to="/">
-    //     Periodic Tables
-    //   </Link>
-    //   <Button onClick={handleToggle}>{navbarOpen ? "Close" : "Open"}</Button>
-    //   {/* collapsibe content */}
-    //   <ul className={`navbar-nav ${navbarOpen ? " showMenu" : ""}`}>
-    //     <li className="nav-item">
-
-    //     </li>
-    //     <li className="nav-item">
-    //       <Link className="nav-link" to="/search">
-    //         <span className="oi oi-magnifying-glass" />
-    //         &nbsp;Search
-    //       </Link>
-    //     </li>
-    //     <li className="nav-item">
-    //       <Link className="nav-link" to="/reservations/new">
-    //         <span className="oi oi-plus" />
-    //         &nbsp;New Reservation
-    //       </Link>
-    //     </li>
-    //     <li className="nav-item">
-    //       <Link className="nav-link" to="/tables/new">
-    //         <span className="oi oi-layers" />
-    //         &nbsp;New Table
-    //       </Link>
-    //     </li>
-    //   </ul>
-    // </nav>
   );
 }
 

@@ -1,7 +1,19 @@
 import { useHistory } from "react-router-dom";
 import ErrorAlert from "../errors/ErrorAlert";
 import { Button } from "../utils/components/buttons";
-
+/** Makes a select element of available tables that would fit the group.
+ * If none are available gives an error.
+ * 
+ * @param {Object} tables
+ * array of table objects 
+ * @param {Object} reservation
+ * the reservation for the party we're trying to seat 
+ * @param {function} handleChange
+ * the change handler for the select 
+ * @param {function} handleSubmit
+ * the submit handler for the select 
+ * @returns {JSX Element}
+ */
 function TableSelect({ tables, reservation, handleChange, handleSubmit }) {
   const history = useHistory();
   if (!tables || !reservation) return null;
@@ -13,7 +25,7 @@ function TableSelect({ tables, reservation, handleChange, handleSubmit }) {
     if (table.capacity > maxTableCapacity) {
       maxTableCapacity = table.capacity;
     }
-    return table.capacity >= reservation.people && !table.occupied;
+    return table.capacity >= reservation.people && !table.reservation_id;
   });
 
   // if the largest table is smaller than the group, return bad news
@@ -34,11 +46,15 @@ function TableSelect({ tables, reservation, handleChange, handleSubmit }) {
   // if we have big enough tables but they're all full please wait
   if (availableTables.length < 1) {
     return (
-      <ErrorAlert
-        error={{
-          message: "Please wait for a large enough table to become available.",
-        }}
-      />
+      <>
+        <ErrorAlert
+          error={{
+            message:
+              "Please wait for a large enough table to become available.",
+          }}
+        />
+        <Button onClick={() => history.push("/")}>Dashboard</Button>
+      </>
     );
   }
 

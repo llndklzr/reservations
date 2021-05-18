@@ -5,7 +5,10 @@ import { today } from "../utils/date-time";
 import { createReservation } from "../utils/api";
 import FormErrors from "../errors/FormErrors";
 import reservationFormValidation from "../errors/reservationFormValidation";
-
+/** Defines the page to make new reservations
+ *
+ * @returns {JSX Element}
+ */
 function NewReservation() {
   const initialFormData = {
     first_name: "",
@@ -21,6 +24,7 @@ function NewReservation() {
 
   const handleChange = ({ target }) => {
     let newValue = target.value;
+    // combat the form changing numbers to strings for backend validation
     if (target.type === "number") {
       newValue = Number(newValue);
     }
