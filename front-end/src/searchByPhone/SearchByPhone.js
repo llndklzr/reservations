@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
 import ErrorAlert from "../errors/ErrorAlert";
 import { listReservations } from "../utils/api";
 import { Button } from "../utils/components/buttons";
@@ -14,8 +13,6 @@ function SearchByPhone({ setLoading }) {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(initialFormData);
   const [lastSearchNumber, setLastSearchNumber] = useState(null);
-
-  const history = useHistory();
 
   const phoneRegExp = /[\d -]+$/g;
 
