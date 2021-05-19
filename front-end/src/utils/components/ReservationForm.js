@@ -24,7 +24,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         type="text"
         id="first_name"
         name="first_name"
-        value={formData.first_name}
+        value={formData.first_name||""}
         onChange={handleChange}
         required
       />
@@ -34,7 +34,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         type="text"
         id="last_name"
         name="last_name"
-        value={formData.last_name}
+        value={formData.last_name||""}
         onChange={handleChange}
         required
       />
@@ -47,7 +47,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         maxLength="12"
         placeholder="123-456-7890"
-        value={formData.mobile_number}
+        value={formData.mobile_number||""}
         onChange={handleChange}
         required
       />
@@ -59,7 +59,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         name="people"
         min={1}
         step={1}
-        value={formData.people}
+        value={formData.people||""}
         onChange={handleChange}
         required
       />
@@ -69,7 +69,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         type="date"
         id="reservation_date"
         name="reservation_date"
-        value={formData.reservation_date}
+        value={formData.reservation_date||""}
         onChange={handleChange}
         required
       />
@@ -80,7 +80,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         id="reservation_time"
         name="reservation_time"
         step={900}
-        value={formData.reservation_time}
+        value={formData.reservation_time||""}
         onChange={handleChange}
         required
       />

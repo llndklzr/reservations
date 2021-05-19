@@ -7,6 +7,7 @@ import {
 import ErrorAlert from "../errors/ErrorAlert";
 import TablesDisplay from "../utils/components/TablesDisplay";
 import ReservationsList from "../utils/components/ReservationsList";
+import { useHistory } from "react-router";
 
 /**
  * Defines the dashboard page.
@@ -17,7 +18,7 @@ function Dashboard({ loading, setLoading, date, setDate }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
-
+  const history = useHistory();
   useEffect(loadDashboard, [date, loading, setLoading]);
 
   function loadDashboard() {
@@ -35,7 +36,7 @@ function Dashboard({ loading, setLoading, date, setDate }) {
 
   const dateChangeHandler = ({ target }) => {
     const newDate = target.value;
-    if (newDate) setDate(newDate);
+    history.push(`/dashboard?date=${newDate}`);
   };
 
   const finishTable = async (table_id) => {
