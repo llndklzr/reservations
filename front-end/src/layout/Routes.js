@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
 import NewReservation from "../newReservation/NewReservation";
@@ -8,6 +8,8 @@ import NewTable from "../newTable/NewTable";
 import SeatReservation from "../seatReservation/SeatReservation";
 import SearchByPhone from "../searchByPhone/SearchByPhone";
 import EditReservation from "../editReservation/EditReservation";
+import { today } from "../utils/date-time";
+import useQuery from "../utils/useQuery";
 /**
  * Defines all the routes for the application.
  *
@@ -17,6 +19,18 @@ import EditReservation from "../editReservation/EditReservation";
 
 function Routes() {
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(today());
+
+  const url = useRouteMatch();
+  const query = useQuery();
+
+  useEffect(loadDate, [url, query]);
+
+  function loadDate() {
+    const newDate = query.get("date");
+    if (newDate) setDate(newDate);
+  }
+
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -26,10 +40,15 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
-        <Dashboard loading={loading} setLoading={setLoading} />
+        <Dashboard
+          loading={loading}
+          setLoading={setLoading}
+          date={date}
+          setDate={setDate}
+        />
       </Route>
       <Route path="/reservations/new">
-        <NewReservation />
+        <NewReservation date={date} />
       </Route>
       <Route path="/reservations/:reservationId/edit">
         <EditReservation />

@@ -6,19 +6,17 @@ import {
 } from "../utils/api";
 import ErrorAlert from "../errors/ErrorAlert";
 import TablesDisplay from "../utils/components/TablesDisplay";
-import { today } from "../utils/date-time";
 import ReservationsList from "../utils/components/ReservationsList";
 
 /**
  * Defines the dashboard page.
  * @returns {JSX.Element}
  */
-function Dashboard({ loading, setLoading }) {
+function Dashboard({ loading, setLoading, date, setDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
-  const [date, setDate] = useState(today());
 
   useEffect(loadDashboard, [date, loading, setLoading]);
 
@@ -35,12 +33,19 @@ function Dashboard({ loading, setLoading }) {
     return () => abortController.abort();
   }
 
+  const dateChangeHandler = ({ target }) => {
+    const newDate = target.value;
+    if (newDate) setDate(newDate);
+  };
+
   const finishTable = async (table_id) => {
     const abortController = new AbortController();
     setTablesError(null);
     try {
-      await deleteReservationId(table_id, abortController.signal);
-      setLoading(true);
+      if (window.confirm("Is this table ready to seat new guests?")) {
+        await deleteReservationId(table_id, abortController.signal);
+        setLoading(true);
+      }
     } catch (error) {
       setTablesError(error);
     }
@@ -57,7 +62,7 @@ function Dashboard({ loading, setLoading }) {
           id="reservation_date"
           name="reservation_date"
           value={date}
-          onChange={(event) => setDate(event.target.value)}
+          onChange={dateChangeHandler}
           required
         />
       </form>

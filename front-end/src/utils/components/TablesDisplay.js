@@ -1,4 +1,4 @@
-import { TableButton } from "./buttons";
+import { FinishButton } from "./buttons";
 /** Renders a table of the restaurant's tables
  * 
  * @param {Array} tables
@@ -16,12 +16,12 @@ function TablesDisplay({ tables, finishTable }) {
         </td>
         <td>
           {table.reservation_id ? (
-            <TableButton
-              data-table-id-finish={table.table_id}
+            <FinishButton
+              tableId={table.table_id}
               onClick={() => finishTable(table.table_id)}
             >
               Finish
-            </TableButton>
+            </FinishButton>
           ) : null}
         </td>
       </tr>

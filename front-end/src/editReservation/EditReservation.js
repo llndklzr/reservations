@@ -5,9 +5,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { readReservation, updateReservation } from "../utils/api";
 import FormErrors from "../errors/FormErrors";
 
-
 /** Page to edit an existing reservation
- * 
+ *
  * @returns {JSX.Element}
  */
 function EditReservation() {
@@ -46,10 +45,42 @@ function EditReservation() {
     return () => abortController.abort();
   }
 
+  let keyPressed = null;
+
+  window.addEventListener(
+    "keydown",
+    function (event) {
+      keyPressed = event.key;
+    },
+    true
+  );
+
   const handleChange = ({ target }) => {
     let newValue = target.value;
-    if (target.type === "number") {
-      newValue = Number(newValue);
+    if (!(keyPressed === "Backspace") && !(keyPressed === "Delete")) {
+      if (target.type === "number") {
+        newValue = Number(newValue);
+      }
+      if (target.type === "tel") {
+        const regex1 = /^[0-9]{3}$/;
+        const regex2 = /^[0-9]{3}-[0-9]{3}$/;
+        const lastCharacterIsADigit = (string) => {
+          const index = string.length - 1;
+          const charCode = string.charCodeAt(index);
+          if (!string.length || (charCode >= 48 && charCode <= 57)) {
+            return true;
+          }
+          return false;
+        };
+
+        if (!lastCharacterIsADigit(newValue)) {
+          return null;
+        } else if (regex2.test(newValue)) {
+          newValue = newValue + "-";
+        } else if (regex1.test(newValue)) {
+          newValue = newValue + "-";
+        }
+      }
     }
     setFormData({
       ...formData,
@@ -66,12 +97,14 @@ function EditReservation() {
       setErrors(newErrors);
     } else {
       try {
-        await updateReservation(
+        const reservation = await updateReservation(
           formData,
           reservationId,
           abortController.signal
         );
-        history.push("/dashboard");
+        history.push(
+          `/dashboard?date=${reservation.reservation_date.slice(0, 10)}`
+        );
       } catch (error) {
         if (error.name === "AbortError") {
           console.log("NewReservation Aborted");

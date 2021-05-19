@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ReservationForm from "../utils/components/ReservationForm";
-import { today } from "../utils/date-time";
 import { createReservation } from "../utils/api";
 import FormErrors from "../errors/FormErrors";
 import reservationFormValidation from "../errors/reservationFormValidation";
@@ -9,13 +8,13 @@ import reservationFormValidation from "../errors/reservationFormValidation";
  *
  * @returns {JSX Element}
  */
-function NewReservation() {
+function NewReservation({ setDate, date }) {
   const initialFormData = {
     first_name: "",
     last_name: "",
     people: "",
     mobile_number: "",
-    reservation_date: today(),
+    reservation_date: date,
     reservation_time: "",
   };
   const [formData, setFormData] = useState(initialFormData);
@@ -32,8 +31,7 @@ function NewReservation() {
     true
   );
 
-  const handleChange = (event) => {
-    const { target } = event;
+  const handleChange = ({ target }) => {
     let newValue = target.value;
     if (!(keyPressed === "Backspace") && !(keyPressed === "Delete")) {
       // combat the form changing numbers to strings for backend validation
@@ -76,8 +74,13 @@ function NewReservation() {
       setReservationErrors(errors);
     } else {
       try {
-        await createReservation(formData, abortController.signal);
-        history.push("/dashboard");
+        const reservation = await createReservation(
+          formData,
+          abortController.signal
+        );
+        history.push(
+          `/dashboard?date=${reservation.reservation_date.slice(0, 10)}`
+        );
       } catch (error) {
         if (error.name === "AbortError") {
           console.log("NewReservation Aborted");

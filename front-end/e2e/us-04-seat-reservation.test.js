@@ -205,7 +205,7 @@ describe("US-04 - Seat reservation - E2E", () => {
       reservation = await createReservation({
         first_name: "Seat",
         last_name: Date.now().toString(10),
-        mobile_number: "555-1313",
+        mobile_number: "503-555-1313",
         reservation_date: "2035-01-01",
         reservation_time: "13:45",
         people: 4,
@@ -220,7 +220,7 @@ describe("US-04 - Seat reservation - E2E", () => {
     });
 
     // eslint-disable-next-line no-template-curly-in-string
-    test("seat button has href with /reservations/${reservation_id}/seat", async () => {
+    test("seat Link has href with /reservations/${reservation_id}/seat", async () => {
       await page.screenshot({
         path: ".screenshots/us-04-dashboard-seat-button-before.png",
         fullPage: true,

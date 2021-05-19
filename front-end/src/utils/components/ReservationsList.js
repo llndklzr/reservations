@@ -1,4 +1,4 @@
-import { TableButton } from "./buttons";
+import { CancelButton, TableButton } from "./buttons";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ErrorAlert from "../../errors/ErrorAlert";
@@ -17,12 +17,13 @@ function ReservationsList({ reservations, setLoading }) {
 
   const handleCancel = async (reservation_id) => {
     const abortController = new AbortController();
-    if (
-      window.confirm(
-        "Do you want to cancel this reservation? This cannot be undone."
-      )
-    ) {
-      try {
+    setError(null);
+    try {
+      if (
+        window.confirm(
+          "Do you want to cancel this reservation? This cannot be undone."
+        )
+      ) {
         const data = { status: "cancelled" };
         await updateReservationStatus(
           data,
@@ -31,12 +32,12 @@ function ReservationsList({ reservations, setLoading }) {
         );
         setLoading(true);
         history.push("/dashboard");
-      } catch (error) {
-        if (error.name === "AbortError") {
-          console.log("ReservationsList handleCancel Aborted");
-        } else {
-          setError(error);
-        }
+      }
+    } catch (error) {
+      if (error.name === "AbortError") {
+        console.log("ReservationsList handleCancel Aborted");
+      } else {
+        setError(error);
       }
     }
     return () => abortController.abort();
@@ -58,7 +59,12 @@ function ReservationsList({ reservations, setLoading }) {
         <td className="truncate">{last_name}</td>
         <td>{people}</td>
         <td>
-          <span className="d-none d-md-block">{status}</span>
+          <span
+            data-reservation-id-status={reservation_id}
+            className="d-none d-md-block"
+          >
+            {status}
+          </span>
           <span className="d-md-none">
             {status === "booked" ? "📖" : status === "seated" ? "🪑" : "❌"}
           </span>
@@ -85,13 +91,13 @@ function ReservationsList({ reservations, setLoading }) {
         </td>
         <td>
           {status === "booked" || status === "seated" ? (
-            <TableButton
-              data-reservation-id-cancel={reservation.reservation_id}
+            <CancelButton
+              reservationId={reservation.reservation_id}
               onClick={() => handleCancel(reservation_id)}
             >
               <span className="d-none d-md-block">Cancel</span>
               <span className="d-md-none">❌</span>
-            </TableButton>
+            </CancelButton>
           ) : null}
         </td>
       </tr>

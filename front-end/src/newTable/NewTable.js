@@ -11,7 +11,7 @@ import TableForm from "../utils/components/TableForm";
 function NewTable() {
   const initialFormData = {
     table_name: "",
-    capacity: 1,
+    capacity: "",
   };
   const [formData, setFormData] = useState(initialFormData);
   const [tableErrors, setTableErrors] = useState([]);

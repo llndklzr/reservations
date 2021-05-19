@@ -4,10 +4,10 @@ const hasProperties = require("../errors/hasProperties");
 const onlyValidProperties = require("../errors/onlyValidProperties");
 
 const REQUIRED_PROPERTIES = ["table_name", "capacity"];
-
+const VALID_PROPERTIES = ["table_name", "capacity", "reservation_id"];
 //! <<------- VALIDATION ------->>
 const hasOnlyValidPropertiesForCreate =
-  onlyValidProperties(REQUIRED_PROPERTIES);
+  onlyValidProperties(VALID_PROPERTIES);
 const hasRequiredPropertiesForCreate = hasProperties(REQUIRED_PROPERTIES);
 
 const hasOnlyValidPropertiesToSeat = onlyValidProperties(["reservation_id"]);
