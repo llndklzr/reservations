@@ -45,6 +45,7 @@ function ReservationForm({ handleChange, handleSubmit, formData, legendTitle}) {
         id="mobile_number"
         name="mobile_number"
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        maxLength="12"
         placeholder="123-456-7890"
         value={formData.mobile_number}
         onChange={handleChange}

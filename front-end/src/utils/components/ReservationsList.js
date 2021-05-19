@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import ErrorAlert from "../../errors/ErrorAlert";
 import { updateReservationStatus } from "../api";
 /** Renders a list of reservations
- * 
+ *
  * @param {Array} reservations
  * An array of reservation objects
  * @param {Function} setLoading
@@ -52,51 +52,49 @@ function ReservationsList({ reservations, setLoading }) {
       status,
     } = reservation;
     return (
-      <>
-        <tr key={reservation_id}>
-          <td>{reservation_time.slice(0, 5)}</td>
-          <td className="truncate">{first_name}</td>
-          <td className="truncate">{last_name}</td>
-          <td>{people}</td>
-          <td>
-            <span className="d-none d-md-block">{status}</span>
-            <span className="d-md-none">
-              {status === "booked" ? "📖" : status === "seated" ? "🪑" : "❌"}
-            </span>
-          </td>
-          <td>
-            {status === "booked" ? (
-              <Link to={`/reservations/${reservation_id}/seat`}>
-                <TableButton>
-                  <span className="d-none d-md-block">Seat</span>
-                  <span className="d-md-none">🪑</span>
-                </TableButton>
-              </Link>
-            ) : null}
-          </td>
-          <td>
-            {status === "booked" ? (
-              <Link to={`/reservations/${reservation_id}/edit`}>
-                <TableButton>
-                  <span className="d-none d-md-block">Edit</span>
-                  <span className="d-md-none">📋</span>
-                </TableButton>
-              </Link>
-            ) : null}
-          </td>
-          <td>
-            {status === "booked" || status === "seated" ? (
-              <TableButton
-                data-reservation-id-cancel={reservation.reservation_id}
-                onClick={() => handleCancel(reservation_id)}
-              >
-                <span className="d-none d-md-block">Cancel</span>
-                <span className="d-md-none">❌</span>
+      <tr key={reservation_id}>
+        <td>{reservation_time.slice(0, 5)}</td>
+        <td className="truncate">{first_name}</td>
+        <td className="truncate">{last_name}</td>
+        <td>{people}</td>
+        <td>
+          <span className="d-none d-md-block">{status}</span>
+          <span className="d-md-none">
+            {status === "booked" ? "📖" : status === "seated" ? "🪑" : "❌"}
+          </span>
+        </td>
+        <td>
+          {status === "booked" ? (
+            <Link to={`/reservations/${reservation_id}/seat`}>
+              <TableButton>
+                <span className="d-none d-md-block">Seat</span>
+                <span className="d-md-none">🪑</span>
               </TableButton>
-            ) : null}
-          </td>
-        </tr>
-      </>
+            </Link>
+          ) : null}
+        </td>
+        <td>
+          {status === "booked" ? (
+            <Link to={`/reservations/${reservation_id}/edit`}>
+              <TableButton>
+                <span className="d-none d-md-block">Edit</span>
+                <span className="d-md-none">📋</span>
+              </TableButton>
+            </Link>
+          ) : null}
+        </td>
+        <td>
+          {status === "booked" || status === "seated" ? (
+            <TableButton
+              data-reservation-id-cancel={reservation.reservation_id}
+              onClick={() => handleCancel(reservation_id)}
+            >
+              <span className="d-none d-md-block">Cancel</span>
+              <span className="d-md-none">❌</span>
+            </TableButton>
+          ) : null}
+        </td>
+      </tr>
     );
   });
 

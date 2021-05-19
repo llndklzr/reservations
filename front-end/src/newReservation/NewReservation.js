@@ -22,11 +22,45 @@ function NewReservation() {
   const [reservationErrors, setReservationErrors] = useState([]);
   const history = useHistory();
 
-  const handleChange = ({ target }) => {
+  let keyPressed = null;
+
+  window.addEventListener(
+    "keydown",
+    function (event) {
+      keyPressed = event.key;
+    },
+    true
+  );
+
+  const handleChange = (event) => {
+    const { target } = event;
     let newValue = target.value;
-    // combat the form changing numbers to strings for backend validation
-    if (target.type === "number") {
-      newValue = Number(newValue);
+    if (!(keyPressed === "Backspace") && !(keyPressed === "Delete")) {
+      // combat the form changing numbers to strings for backend validation
+      if (target.type === "number") {
+        newValue = Number(newValue);
+      }
+      if (target.type === "tel") {
+        const regex1 = /^[0-9]{3}$/;
+        const regex2 = /^[0-9]{3}-[0-9]{3}$/;
+        const lastCharacterIsADigit = (string) => {
+          const index = string.length - 1;
+          const charCode = string.charCodeAt(index);
+          console.log(charCode);
+          if (!string.length || (charCode >= 48 && charCode <= 57)) {
+            return true;
+          }
+          return false;
+        };
+
+        if (!lastCharacterIsADigit(newValue)) {
+          return null;
+        } else if (regex2.test(newValue)) {
+          newValue = newValue + "-";
+        } else if (regex1.test(newValue)) {
+          newValue = newValue + "-";
+        }
+      }
     }
     setFormData({
       ...formData,
