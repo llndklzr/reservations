@@ -13,7 +13,6 @@ import { useHistory } from "react-router-dom";
  * @returns {JSX Element}
  */
 function TableForm({ handleChange, handleSubmit, formData, legendTitle }) {
-  console.log(formData);
   const history = useHistory();
 
   const renderView = (

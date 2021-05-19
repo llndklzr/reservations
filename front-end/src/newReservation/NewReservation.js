@@ -46,7 +46,6 @@ function NewReservation() {
         const lastCharacterIsADigit = (string) => {
           const index = string.length - 1;
           const charCode = string.charCodeAt(index);
-          console.log(charCode);
           if (!string.length || (charCode >= 48 && charCode <= 57)) {
             return true;
           }
